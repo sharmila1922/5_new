@@ -96,11 +96,11 @@ class AddLocationScreen(Screen):
     zip_code = ObjectProperty(None)
 
     def __init__(self, **kwargs):
-        super(AddLocationScreen, self).__init__(**kwargs)
-        self.file_manager = MDFileManager(
-            exit_manager=self.exit_manager,
-            select_path=self.select_path,
-        )
+    super(AddLocationScreen, self).__init__(**kwargs)
+    self.file_manager = MDFileManager(
+        exit_manager=self.exit_manager,
+        select_path=self.select_path,
+    )
 
     def exit_manager(self, *args):
         self.file_manager.close()
@@ -115,6 +115,13 @@ class AddLocationScreen(Screen):
     def location_button(self):
         self.file_manager.show('/')
 
+    def request_permissions(self):
+        # Request storage permission using a shell command
+        os.system('pm grant snow android.permission.READ_EXTERNAL_STORAGE')
+
+    def on_request_permissions(self, instance):
+        self.request_permissions()
+        
     def update_city_spinner(self, selected_state):
         state_city_mapping = {
             "New Hampshire": ["Pittsburg"],
